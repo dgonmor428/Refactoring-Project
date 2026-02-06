@@ -1,29 +1,67 @@
+import java.util.ArrayList;
+
 public class Pedido {
+    private static final double DESCUENTO = 0.95;
+    private static final double IVA = 0.21;
+    private Cliente cliente;
+    private ArrayList<Producto> listaProductos = new ArrayList<>();
 
-    String nombreCliente = "TechSolutions SL";
-    String identificadorCliente = "B12345678";
-    String direccionCliente = "Calle Industria 55, Madrid";
+    public Pedido (Cliente cliente){
+        this.cliente = cliente;
+    }
 
-    private static double TASA_IVA = 0.21; // Esto es el IVA
-    public Pedido (){
-        // --- CLIENTE 1: CÁLCULOS (Mezclados con impresión) ---
-        double total = 0; // total
-        System.out.println("Procesando pedido para: " + nombreCliente);
-        System.out.println("ID Cliente: " + identificadorCliente);
-        
-        for (int i = 0; i < productoNombre.size(); i++) {
-        total = total + productoPrecio.get(i);
-        System.out.println("Item " + (i+1) + ": " + productoNombre.get(i) + " - " +
-        productoPrecio.get(i) + " EUR");
+    public void agregarProducto(Producto producto){
+        listaProductos.add(producto);
+    }
+
+    public Cliente getCliente(){
+        return cliente;
+    }
+
+    public ArrayList<Producto> getlistaProductos (){
+        return listaProductos;
+    }
+
+    public Double calcularSubtotal(){
+        double subtotal = 0;
+
+        /* 
+        for (int i = 0; i < listaProductos.size(); i++) {
+            subtotal = subtotal + listaProductos.get(i).getPrecio();
+            }
+        */
+
+        for (Producto producto : listaProductos ) {
+            subtotal =  subtotal + producto.getPrecio();
         }
-        // Lógica de descuento "hardcodeada"
-        if (total > 3000) {
-        System.out.println("Aplica descuento por gran volumen (5%)");
-        total = total * 0.95; 
-        }
-        double total_IVA = total + (total * TASA_IVA);
-        System.out.println("Total Neto: " + total);
-        System.out.println("Total con IVA (" + (TASA_IVA*100) + "%): " + total_IVA);
-        System.out.println("--------------------------------------------------");
+
+        return subtotal;
+    }
+
+    public Double calcularDescuento(){
+        double subtotal = calcularSubtotal();
+
+            subtotal = subtotal * DESCUENTO; 
+
+        return subtotal;
+    }
+
+    public boolean  aplicaDescuento(){
+        double subtotal = calcularDescuento();
+
+        if (subtotal > 3000){
+            return true;
+        }else{
+            return false;
+        }  
+    }
+
+    public Double calcularSubtotalConIVA(){
+        double subtotal = calcularSubtotal();
+
+        subtotal = subtotal + (subtotal * IVA);
+
+        return subtotal;
     }
 }
+
