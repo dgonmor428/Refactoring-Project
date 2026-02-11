@@ -29,7 +29,7 @@ public class App {
                 
         private static void imprimirPedido(Pedido pedido) {
             System.out.println(String.format("Procesando pedido para: %s", pedido.getCliente().getNombre()));
-            System.out.println(String.format("ID Cliente: %s" + pedido.getCliente().getIdentificador()));
+            System.out.println(String.format("ID Cliente: %s", pedido.getCliente().getIdentificador()));
             for (int i = 0; i < pedido.getlistaProductos().size(); i++){
                 System.out.println(String.format("Item %d : %s - %.2f EUR", (i+1), pedido.getlistaProductos().get(i).getNombre(), pedido.getlistaProductos().get(i).getPrecio()));
             }
@@ -37,17 +37,17 @@ public class App {
                 System.out.println("Aplica descuento por gran volumen (5%)");
             }
             System.out.println(String.format("Total Neto: %.2f", pedido.calcularSubtotal()));
-            System.out.println(String.format("Total con IVA (%.2f %): %.2f", (IVA * 100), pedido.calcularSubtotalConIVA()));
+            System.out.println(String.format("Total con IVA (%.2f %%): %.2f", (IVA * 100), pedido.calcularSubtotalConIVA()));
             System.out.println("--------------------------------------------------");
         }
                                 
         private static void generarFicheroPedido(Pedido pedido) {
             try {
-                FileWriter myWriter = new FileWriter(String.format("pedido_" + c2_id + ".txt"));
+                FileWriter myWriter = new FileWriter(String.format("pedido_ %s .txt", pedido.getCliente().getIdentificador()));
                 myWriter.write("FACTURA\n");
-                myWriter.write("Cliente: " + c2_n + "\n");
-                myWriter.write("Direccion: " + c2_d + "\n");
-                myWriter.write("Total a pagar: " + t2_iva + "\n");
+                myWriter.write(String.format("Cliente: %s \n", pedido.getCliente().getNombre() ));
+                myWriter.write(String.format("Direccion: %s \n", pedido.getCliente().getDireccion()));
+                myWriter.write(String.format("Total a pagar: \n ", pedido.calcularSubtotalConIVA()));
                 myWriter.close();
                 System.out.println("Archivo guardado correctamente.");
                 } catch (IOException e) {
@@ -55,6 +55,7 @@ public class App {
                 e.printStackTrace();
             }
         }
+        
 }
 
 
