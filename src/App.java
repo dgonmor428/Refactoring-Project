@@ -13,13 +13,12 @@ public class App {
 
         procesarPedido(pedido1);
 
-        Cliente cliente2 = new Cliente("TechSolutions SL", "B12345678", "Calle Industria 55");
+        Cliente cliente2 = new Cliente("Libreria Moderna", "A98765432", "Av. Diagonal 200, Barcelona");
         Pedido pedido2 = new Pedido(cliente2);
-        pedido1.agregarProducto(new Producto("Servidor Dell", 2500.0));
-        pedido1.agregarProducto(new Producto("Windows Server", 800.0));
+        pedido2.agregarProducto(new Producto("Pack Libros Escolares", 2500.0));
+        pedido2.agregarProducto(new Producto("Estantería Metálica", 800.0));
 
-        
-
+        procesarPedido(pedido2);
        }
 
         private static void procesarPedido(Pedido pedido){
@@ -43,11 +42,11 @@ public class App {
                                 
         private static void generarFicheroPedido(Pedido pedido) {
             try {
-                FileWriter myWriter = new FileWriter(String.format("pedido_ %s .txt", pedido.getCliente().getIdentificador()));
+                FileWriter myWriter = new FileWriter(String.format("pedido_%s.txt", pedido.getCliente().getIdentificador()));
                 myWriter.write("FACTURA\n");
                 myWriter.write(String.format("Cliente: %s \n", pedido.getCliente().getNombre() ));
                 myWriter.write(String.format("Direccion: %s \n", pedido.getCliente().getDireccion()));
-                myWriter.write(String.format("Total a pagar: \n ", pedido.calcularSubtotalConIVA()));
+                myWriter.write(String.format("Total a pagar: %.2f\n ", pedido.calcularSubtotalConIVA()));
                 myWriter.close();
                 System.out.println("Archivo guardado correctamente.");
                 } catch (IOException e) {
